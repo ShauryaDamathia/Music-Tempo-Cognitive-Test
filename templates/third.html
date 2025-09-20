@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Flanker Task</title>
+  <<link rel="stylesheet" href="{{ url_for('static', filename='styles1.css') }}">
+  <script>
+    function redirectToNextPage(event) {
+      event.preventDefault(); 
+      window.location.href = "{{ url_for('begin_task') }}"; 
+    }
+  </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+          <h1>Almost There...</h1>
+          <p>Research study conducted by Meher Damathia (MSc. Clinical Psychology), Christ University</p>
+        </header>
+    
+        <section class="content">
+        <form onsubmit="redirectToNextPage(event)">
+            <h2>Get Ready for the Next Round</h2>
+            <p>In the next part, you'll complete the same task again—but this time, a new type of background music will be playing.</p>
+            <br>
+            <h3>Please remember:</h3>
+            <ul>
+              <li>During this experiment, you will be asked to complete the task while background music is played through your device. Make sure your laptop/computer volume is at a comfortable level.</li>
+              <li>Wear your headphones.</li>
+              <li>Do not adjust the volume during the task.</li>
+              <li>Try to stay focused and respond as quickly and accurately as you can. </li>
+              <li>This round will take about 5-7 minutes.</li>
+            </ul>
+            <br><br>
+        <button type="submit" class="submit-btn">Start Task</button>
+      </form>
+</body>
+</html>

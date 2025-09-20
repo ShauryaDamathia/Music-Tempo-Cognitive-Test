@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Flanker Task</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles1.css') }}">
+    <script>
+        function redirectToNextPage(event) {
+            event.preventDefault(); 
+            // Use Flask's url_for function to dynamically generate the correct route for the next page
+            window.location.href = "{{ url_for('task') }}"; 
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Practice Task</h1>
+            <p>Research study conducted by Meher Damathia (MSc. Clinical Psychology), Christ University</p>
+        </header>
+    
+        <section class="content">
+            <form onsubmit="redirectToNextPage(event)">
+                <h2>Instructions: </h2>
+                <p>You will see five letters on the screen at a time.</p>
+                <p>Your task is to respond to the letter in the middle (the target letter), while ignoring the others.</p>
+                <p>Please respond as quickly and accurately as possible; if you do not respond within 3 seconds, your answer will be marked as incorrect.</p>
+                <br>
+                <p><strong>Key responses:</strong></p>
+                <p>Press A if the middle letter is X or C.</p>
+                <p>Press L if the middle letter is V or B.</p>
+                <br>
+
+                <p><strong>Example: </strong>If the screen shows XXCXX, you should press A, because the middle letter is C.</p>
+                <p>These keys are used because they are positioned to the left (A) and right (L) sides of the keyboard.</p>
+                <br>
+                <h3>Important notes:</h3>
+                <ul>
+                    <li>Use only a laptop or desktop.</li>
+                    <li>Headphones are required to ensure accurate sound delivery during the study.</li>
+                    <li>Sit in a quiet environment with minimal distractions.</li>
+                    <li>Respond as quickly and accurately as you can.</li>
+                    <li>There will be a short practice round before the actual task begins.</li>
+                </ul>
+                <br>
+                <button type="submit" class="submit-btn">Begin practice round</button>
+            </form>
+        </section>
+    </div>
+</body>
+</html>

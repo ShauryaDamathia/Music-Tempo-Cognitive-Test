@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demographic Questionnaire - Music Tempo Study</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles1.css') }}">
+  <script>
+    function toggleSpecifyField(selectElement, specifyFieldId) {
+      const specifyField = document.getElementById(specifyFieldId);
+      if (selectElement.value === "Other") {
+        specifyField.style.display = "inline";
+      } else {
+        specifyField.style.display = "none";
+      }
+    }
+    function toggleCheckboxSpecifyField(checkboxElement, specifyFieldId) {
+      const specifyField = document.getElementById(specifyFieldId);
+      if (checkboxElement.checked) {
+        specifyField.style.display = "inline";
+      } else {
+        specifyField.style.display = "none";
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Demographic Questionnaire</h1>
+      <p>Research study conducted by Meher Damathia (MSc. Clinical Psychology), Christ University</p>
+    </header>
+
+    <section class="content">
+      <form method="POST" action="{{ url_for('save_data') }}">
+        <input type="hidden" name="page" value="questionaire">
+
+        <h2>1. Age:</h2>
+        <input type="number" name="age" placeholder="Enter your age (years)" required>
+
+        <h2>2. Gender:</h2>
+        <label><input type="radio" name="gender" value="Male" required onclick="toggleSpecifyField(this, 'other-gender-field')"> Male</label><br>
+        <label><input type="radio" name="gender" value="Female" onclick="toggleSpecifyField(this, 'other-gender-field')"> Female</label><br>
+        <label><input type="radio" name="gender" value="Non-binary" onclick="toggleSpecifyField(this, 'other-gender-field')"> Non-binary</label><br>
+        <label><input type="radio" name="gender" value="Prefer not to say" onclick="toggleSpecifyField(this, 'other-gender-field')"> Prefer not to say</label><br>
+        
+
+        <h2>3. Educational Qualification:</h2>
+        <label><input type="radio" name="qualification" value="Undergraduate Student" required onclick="toggleSpecifyField(this, 'other-qualification-field')"> Undergraduate Student</label><br>
+        <label><input type="radio" name="qualification" value="Postgraduate Student" onclick="toggleSpecifyField(this, 'other-qualification-field')"> Postgraduate Student</label><br>
+        <label><input type="radio" name="qualification" value="Other" onclick="toggleSpecifyField(this, 'other-qualification-field')"> Other (Please specify): 
+          <input type="text" name="other-qualification" id="other-qualification-field" style="display:none;" placeholder="Specify">
+        </label>
+
+        <h2>4. Native Language:</h2>
+        <label><input type="radio" name="language" value="English" required onclick="toggleSpecifyField(this, 'other-language-field')"> English</label><br>
+        <label><input type="radio" name="language" value="Other" onclick="toggleSpecifyField(this, 'other-language-field')"> Other (Please specify): 
+          <input type="text" name="other-language" id="other-language-field" style="display:none;" placeholder="Specify">
+        </label>
+
+        <h2>5. Do you have any formal diagnosis of ADHD?</h2>
+        <label><input type="radio" name="adhd-diagnosis" value="Yes" required> Yes</label><br>
+        <label><input type="radio" name="adhd-diagnosis" value="No"> No</label>
+
+        <h2>6. Are you currently taking any psychoactive medications (e.g., stimulants, antidepressants, 
+          anxiolytics)?</h2>
+        <label><input type="radio" name="medications" value="Yes" required> Yes</label><br>
+        <label><input type="radio" name="medications" value="No"> No</label>
+
+        <h2>7. Do you have any hearing impairments?</h2>
+        <label><input type="radio" name="hearing-impairment" value="Yes" required> Yes</label><br>
+        <label><input type="radio" name="hearing-impairment" value="No"> No</label>
+
+        <h2>8. How frequently do you listen to music while working or studying?</h2>
+        <label><input type="radio" name="music-frequency" value="Never" required> Never</label><br>
+        <label><input type="radio" name="music-frequency" value="Rarely"> Rarely</label><br>
+        <label><input type="radio" name="music-frequency" value="Sometimes"> Sometimes</label><br>
+        <label><input type="radio" name="music-frequency" value="Often"> Often</label><br>
+        <label><input type="radio" name="music-frequency" value="Always"> Always</label>
+
+        <h2>9. What is your preferred music genre? (Select all that apply)</h2>
+        <label><input type="checkbox" name="music-genre" value="Classical"> Classical</label><br>
+        <label><input type="checkbox" name="music-genre" value="Pop"> Pop</label><br>
+        <label><input type="checkbox" name="music-genre" value="Rock"> Rock</label><br>
+        <label><input type="checkbox" name="music-genre" value="Electronic/EDM"> Electronic/EDM</label><br>
+        <label><input type="checkbox" name="music-genre" value="Jazz"> Jazz</label><br>
+        <label><input type="checkbox" name="music-genre" value="Lo-fi/Ambient"> Lo-fi/Ambient</label><br>
+        <label><input type="checkbox" name="music-genre" value="Other" onclick="toggleCheckboxSpecifyField(this, 'other-genre-field')"> Other (Please specify): 
+          <input type="text" name="other-genre" id="other-genre-field" style="display:none;" placeholder="Specify">
+        </label>
+
+        <br><br>
+        <button type="submit" class="submit-btn">Submit and Next</button>
+      </form>
+    </section>
+  </div>
+</body>
+</html>

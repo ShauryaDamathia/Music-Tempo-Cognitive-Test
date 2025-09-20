@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ARCES Questionnaire - Music Tempo Study</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles1.css') }}">
+</head>
+<body>
+  <div class="container">
+    <header>
+        <p2 style="font-size: 24px;">You are invited to participate in a research study conducted by Meher Damathia, a student of MSc. Clinical Psychology at Christ (deemed to be university), Central campus, Bangalore. This study is being carried out under the supervision of Dr. Athullya Nair, Department of Psychological Sciences.<br><br>
+            The purpose of this study is to examine the effect of music tempo on cognitive performance in young adults with self-reported attentional difficulties.<br><br>
+            Your participation in this study is entirely voluntary, and you may withdraw at any time without any consequences.</p2> <br>
+    </header>
+    <br><br>
+
+    <section class="content">
+        <!-- Link to the /consent route in Flask -->
+        <a href="{{ url_for('consent') }}"><button class="submit-btn">Proceed to consent form</button></a>
+    </section>
+  </div>
+</body>
+</html>

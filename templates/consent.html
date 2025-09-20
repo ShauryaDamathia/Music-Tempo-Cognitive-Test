@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Consent Form - Music Tempo Study</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles1.css') }}">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Study Consent Form</h1>
+      <p>Research study conducted by Meher Damathia (MSc. Clinical Psychology), Christ University</p>
+    </header>
+
+    <section class="content">
+      
+      <h2>Purpose of the Study</h2>
+      <p>
+        The purpose of this study is to explore the role of music tempo in enhancing cognitive performance in young adults. It will see whether varying tempos of music playing in the background influence cognitive performance, particularly in individuals who experience self-reported attentional difficulties. The findings from this study may contribute to a better understanding of how auditory stimulation influences cognitive efficiency in individuals with attentional challenges, offering potential implications for academic and work environments.
+      </p>
+
+      <h3>If you agree to participate:</h3>
+      <ul>
+        <li>You will complete a brief questionnaire about your demographic details and attentional experiences.</li>
+        <li>You will perform a cognitive task under different music conditions (no music, low tempo, high tempo).</li>
+        <li>The study will take approximately 15 minutes to complete.</li>
+        <li>Your responses will be recorded, but your identity will remain anonymous.</li>
+      </ul>
+
+      <h3>Potential Risks and Discomforts</h3>
+      <p>
+        There are no known physiological risks associated with participating in this study. However, you may experience slight mental fatigue, similar to what one might feel after completing a focus-based task. If at any point you feel discomfort or wish to stop, you are free to take a break or withdraw from the study without any consequences.
+      </p>
+
+      <h3>Benefits</h3>
+      <p>
+        While there are no direct benefits to you, your participation will help advance research on how music affects cognitive performance. The findings may contribute to improving focus and productivity strategies in educational and professional settings.
+      </p>
+
+      <h3>Risks</h3>
+      <p>
+        There are no known physical and mental risks involved. However, completing attention-based tasks may cause mild mental fatigue. If at any point you feel uncomfortable, you are free to take a break or withdraw from the study without any consequences.
+      </p>
+
+      <h3>Confidentiality</h3>
+      <p>
+        All information collected during this study will remain strictly confidential. Your responses will be anonymized, and no personally identifiable information will be shared. The data will be securely stored in a password-protected file and used only for academic research purposes. If you have any concerns about confidentiality, feel free to contact the researchers.
+      </p>
+
+      <h3>Voluntary Participation & Withdrawal</h3>
+      <p>Participation in this study is completely voluntary. You have the right to:</p>
+      <ul>
+        <li>Choose whether or not to participate.</li>
+        <li>Withdraw from the study at any time without providing a reason.</li>
+        <li>Skip any questions you do not wish to answer.</li>
+      </ul>
+      <p>There will be no consequences or penalties for withdrawing from the study.</p>
+
+      <h3>Publication of Results</h3>
+      <p>
+        The results of this study may be published in academic journals or conferences, but your identity will never be disclosed. If you would like a summary of the findings, you may request one from the researcher.
+      </p>
+
+      <h3>Contact Information</h3>
+      <p>If you have any questions or concerns about this study, please contact:</p>
+      <p><strong>Principal Investigator:</strong> Dr. Athullya Nair (athullya.nair@christuniversity.in)</p>
+      <p><strong>Student Researcher:</strong> Meher Damathia (meher.damathia@psy.christuniversity.in)</p>
+
+      <!-- Consent Form Starts Here -->
+      <form class="consent" action="/save_data" method="POST">
+        <h3>Participant Consent</h3>
+        <p>By signing below, you confirm that:</p>
+        <ul>
+          <li>You have read and understood the information provided.</li>
+          <li>You voluntarily agree to participate.</li>
+          <li>You understand that you may withdraw at any time without consequences.</li>
+        </ul>
+        <br>  
+
+        <p><strong>Please initial one of the following: </strong></p>
+        <label>
+          <input type="radio" name="consent" value="agree" /> I agree to participate in this study.
+        </label><br />
+        <label>
+        <br />
+
+        <p><strong>Please initial one of the following regarding data usage: </strong></p>
+        <label>
+          <input type="radio" name="data-usage" value="agree-data" /> I give permission for my responses to be used in data analysis and research reports.
+        </label><br />
+        
+          <br />
+
+          <label for="participant-name"><strong>Name Initials</strong></label>
+          <input type="text" id="participant-name" name="participant_name" required><br><br>
+          
+          <label for="date"><strong>Date</strong></label>
+          <input type="date" id="date" name="date" required><br><br>
+
+          <input type="hidden" name="page" value="consent">
+        <button type="submit" class="submit-btn">Submit and next</button>
+      </form>
+    </section>
+  </div>
+
+  <script>
+    function validateForm(event) {
+      event.preventDefault();
+
+      const consentRadios = document.querySelectorAll('input[name="consent"]');
+      const dataUsageRadios = document.querySelectorAll('input[name="data-usage"]');
+      const name = document.getElementById('participant-name').value.trim();
+      const date = document.getElementById('date').value;
+
+      const isConsentChecked = Array.from(consentRadios).some(radio => radio.checked);
+      const isDataUsageChecked = Array.from(dataUsageRadios).some(radio => radio.checked);
+
+      if (!isConsentChecked || !isDataUsageChecked) {
+        alert('Please select your consent and data usage preferences.');
+        return false;
+      }
+
+      if (name === '' || date === '') {
+        alert('Please fill out your name and date.');
+        return false;
+      }
+
+      // Redirect to the next page using Flask's url_for
+      window.location.href = "{{ url_for('questionaire') }}";
+      return true;
+    }
+  </script>
+</body>
+</html>

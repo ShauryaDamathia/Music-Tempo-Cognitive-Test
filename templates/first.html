@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Flanker Task</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles1.css') }}">
+  <script>
+    function redirectToNextPage(event) {
+      event.preventDefault(); 
+      window.location.href = "{{ url_for('begin_task') }}"; 
+    }
+  </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+          <h1>Let's Begin</h1>
+          <p>Research study conducted by Meher Damathia (MSc. Clinical Psychology), Christ University</p>
+        </header>
+    
+        <section class="content">
+        <form onsubmit="redirectToNextPage(event)">
+            <h2>Practice Complete</h2>
+            <p>Great job! You’ve now completed the practice round.</p>
+            <p>You will now begin the actual task.</p>
+            <br>
+            <p><strong>The rules remain the same:</strong></p>
+            <p>Press A if the middle letter is X or C.</p>
+            <p>Press L if the middle letter is V or B.</p>
+            <p>Please respond as quickly and accurately as possible; if you do not respond within 3 seconds, your answer will be marked as incorrect.</p>
+            <br>
+
+            <p><strong>Please note:<br><br>During this experiment, you will be asked to complete the task while background music is played through your device. Make sure your laptop/computer volume is at a comfortable level.</strong></p>
+            <br>
+            <p><strong>Try to stay focused and respond as quickly and accurately as possible.</strong></p>
+            <p>The task will take around 5-7 minutes.</p>
+            <p>Make sure you are wearing your headphones and are in a quiet, distraction-free environment.</p>
+            <br><br>
+        <button type="submit" class="submit-btn">Start Task</button>
+      </form>
+</body>
+</html>

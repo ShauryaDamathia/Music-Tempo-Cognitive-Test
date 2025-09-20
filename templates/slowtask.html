@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Flanker Task</title>
+  <style>
+    body {
+      background-color: black;
+      color: yellow;
+      font-family: Arial, sans-serif;
+      font-size: 24px;
+      text-align: center;
+      margin-top: 150px;
+    }
+    .stimulus {
+      font-size: 48px;
+      margin-bottom: 50px;
+    }
+    .fixation {
+      font-size: 48px;
+      margin-top: 100px;
+    }
+    button {
+      font-size: 24px;
+      padding: 15px 40px;
+      border-radius: 12px;
+      border: none;
+      background-color: rgb(252, 252, 249);
+      color: black;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: yellow;
+    }
+  </style>
+</head>
+<body>
+  <div id="main" style="display: none;">
+    <audio id="bg-music" loop>
+      <source src="{{ url_for('static', filename='Slow tempo.mp3') }}" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+
+    <div id="stimulus" class="stimulus"></div>
+    <div id="fixation" class="fixation">+</div>
+  </div>
+
+  <!-- Start screen -->
+  <div id="start-screen" style="color: yellow; text-align: center;">
+    <h2>Press button to start</h2>
+    <button onclick="startTask()">Start</button>
+  </div>
+
+  <script>
+    let trialData=[];
+    const congruentStimuli = ['CCCCC', 'VVVVV', 'XXXXX', 'BBBBB'];
+    const incongruentStimuli = [
+      'CCXCC','CCBCC', 'CCVCC',
+      'XXCXX', 'XXVXX','XXBXX',
+      'VVBVV', 'VVCVV', 'VVXVV',
+      'BBVBB', 'BBCBB', 'BBXBB'
+    ];
+
+    const allStimuli = [...congruentStimuli, ...incongruentStimuli];
+    const trials = [];
+    const totalTrials = 20;
+
+    for (let i = 0; i < totalTrials; i++) {
+      const stim = allStimuli[Math.floor(Math.random() * allStimuli.length)];
+      trials.push(stim);
+    }
+
+    let currentTrial = 0;
+    let waitingForResponse = false;
+    let stimulusStart = 0;
+    let responseTimeout;
+
+    const fixation = document.getElementById("fixation");
+    const stimulusDiv = document.getElementById("stimulus");
+    const bgMusic = document.getElementById("bg-music");
+
+    const keyMapping = {
+      'x': 'a',
+      'c': 'a',
+      'v': 'l',
+      'b': 'l'
+    };
+
+    function startTask() {
+      document.getElementById("start-screen").style.display = "none";
+      document.getElementById("main").style.display = "block";
+
+      bgMusic.play(); // Play the background music immediately
+
+      showStimulus();  // Start the task immediately without delay
+    }
+
+    function showStimulus() {
+      const stim = trials[currentTrial];
+      stimulusDiv.textContent = stim;
+      fixation.textContent = '';
+      stimulusStart = performance.now();
+      waitingForResponse = true;
+
+      responseTimeout = setTimeout(() => {
+        if (waitingForResponse) {
+          recordResponse(null); 
+        }
+      }, 3000);
+    }
+
+    function showFixation(color = "white") {
+      stimulusDiv.textContent = "";
+      fixation.style.color = color;
+      fixation.textContent = "+";
+    }
+
+    function showThankYouMessage() {
+  document.body.style.backgroundColor = "black";
+  document.body.innerHTML = ` 
+    <h2 style="color: yellow; text-align: center; margin-top: 200px;">
+      Thank you, Please wait...
+    </h2>`;
+
+  // Send trial data to server
+  fetch("/save_flanker_data", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    task_type: "slowtask",
+    trials: trialData
+  })
+})
+.then(res => res.json())
+.then(data => {
+  console.log(data.message);
+  window.location.href = "/next_task"; 
+});
+
+}
+
+
+function recordResponse(pressedKey) {
+  clearTimeout(responseTimeout);
+  const stim = trials[currentTrial];
+  const centralLetter = stim[2].toLowerCase();
+  const expectedKey = keyMapping[centralLetter];
+  const isCorrect = (pressedKey === expectedKey);
+  const responseTime = performance.now() - stimulusStart;
+
+  // Determine Congruency
+  const isCongruent = stim.split('').every(letter => letter.toLowerCase() === centralLetter);
+
+  // Store trial data
+  trialData.push({
+    trial_number: currentTrial + 1,
+    stimulus: stim,
+    central_letter: centralLetter.toUpperCase(),
+    congruency: isCongruent ? 'Congruent' : 'Incongruent',
+    expected_key: expectedKey.toUpperCase(),
+    pressed_key: pressedKey ? pressedKey.toUpperCase() : 'No Response',
+    correct: isCorrect ? 'Yes' : 'No',
+    response_time_ms: pressedKey ? Math.round(responseTime) : 'No Response'
+  });
+
+  showFixation(pressedKey ? (isCorrect ? "green" : "red") : "red");
+
+  waitingForResponse = false;
+  currentTrial++;
+
+  setTimeout(() => {
+    nextTrial();
+  }, 500);
+}
+
+
+    function nextTrial() {
+      if (currentTrial >= totalTrials) {
+        showThankYouMessage();
+        return;
+      }
+      showStimulus();
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if (!waitingForResponse) return;
+      const key = e.key.toLowerCase();
+      if (key !== 'a' && key !== 'l') return; 
+      recordResponse(key);
+    });
+  </script>
+
+</body>
+</html>

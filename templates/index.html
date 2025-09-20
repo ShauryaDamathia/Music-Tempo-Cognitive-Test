@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Flanker Task</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles1.css') }}">
+    <script>
+        function redirectToNextPage(event) {
+            event.preventDefault(); 
+            // Use Flask's url_for function to dynamically generate the correct route
+            window.location.href = "{{ url_for('practice') }}"; 
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>You're Eligible to Participate – Please Read Carefully Before Proceeding</h1>
+            <p>Research study conducted by Meher Damathia (MSc. Clinical Psychology), Christ University</p>
+        </header>
+    
+        <section class="content">
+            <form onsubmit="redirectToNextPage(event)">
+                <p><strong>Based on your responses, you are eligible to take part in the next phase of this study. You will now complete a cognitive task under different music conditions.</strong></p>
+                <h2>Important Instructions Before You Begin:</h2>
+                <ul>
+                    <li>You must wear headphones or earphones throughout the task.</li>
+                    <li>Do not reduce the system volume or mute the music during the experiment.</li>
+                    <li>Complete the task in a quiet, distraction-free environment.</li>
+                    <li>Ensure you understand the instructions fully before starting the task.</li>
+                    <li>Please do not refresh or exit the browser once the experiment begins.</li>
+                </ul>
+                <p><strong>Note: If you're unable to meet these conditions, please exit the study now.</strong></p>
+                <br>
+                <button type="submit" class="submit-btn">I understand and I'm ready to begin</button>
+            </form>
+        </section>
+    </div>
+</body>
+</html>
